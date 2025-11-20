@@ -4,11 +4,10 @@ require_once 'db_connect.php';
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get form data and sanitize
+    
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
-    
-    // Validation
+
     $errors = [];
     
     if (empty($username)) {
@@ -19,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "Password is required";
     }
     
-    // If no errors, proceed with login
+
     if (empty($errors)) {
         // Query to check if user exists
         $sql = "SELECT * FROM users WHERE username = :username OR email = :email";
@@ -31,12 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             // Verify password
             if (password_verify($password, $user['password'])) {
-                // Password is correct, start session
+                
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['email'] = $user['email'];
-                
-                // Redirect to dashboard or home page
+              
                 header("Location: dashboard.php");
                 exit();
             } else {

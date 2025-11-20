@@ -87,7 +87,6 @@
         border: none;
         border-radius: 7px;
         outline: none;
-        color: white;
     }
 
     form input:focus {
@@ -180,12 +179,12 @@
     <div id="container">
         <div id="header"><p>Login now</p></div>
         <div id="body">
-            <form action="login.php" method="POST">
+            <form action="submit">
                 <label for="username">Username</label>
-                <input type="text" placeholder="Enter username" name="username">
+                <input type="text" placeholder="Enter username">
 
                 <label for="password">Password</label>
-                <input type="password" placeholder="Enter password" name ="password">
+                <input type="text" placeholder="Enter password">
 
                 <div class="options">
                     <label><input type="checkbox"> Remember me</label>
@@ -199,24 +198,7 @@
                 <img src="/resources/images/Qr-code.svg" alt="this is a qr">
             </div>
         </div>
-        <label id="sign-up-link" for="signup">Don't have an account? <a href="signup.php">Sign up</a></label>
+        <label id="sign-up-link" for="signup">Don't have an account? <a href="sign_up.html">Sign up</a></label>
     </div>
-     <?php
-      // Display success message
-      if (isset($_SESSION['success'])) {
-          echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['success']) . '</div>';
-          unset($_SESSION['success']);
-      }
-      
-      // Display errors
-      if (isset($_SESSION['errors'])) {
-          echo '<div class="alert alert-danger"><ul class="mb-0">';
-          foreach ($_SESSION['errors'] as $error) {
-              echo '<li>' . htmlspecialchars($error) . '</li>';
-          }
-          echo '</ul></div>';
-          unset($_SESSION['errors']);
-      }
-      ?>
 </body>
 </html>
