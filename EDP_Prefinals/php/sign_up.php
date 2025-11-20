@@ -215,15 +215,11 @@
 
 <body>
   <?php
-<<<<<<< HEAD
   $host = "localhost";
   $db = "auth";
   $user = "root";
   $pass =  "";
   $charset = "utf8mb4";
-=======
-    require_once "db_functions.php";
->>>>>>> 88474671e7770220e99f6a34e7d0511b600808ef
 
     $pdo = connect();
 
@@ -245,7 +241,7 @@
         echo "<script>toastr.error('Email is already in use.', 'Error');</script>";
       }
     }
-  ?>
+?>
 
   <div id="container">
     <div id="header"><p>Sign up now</p></div>
