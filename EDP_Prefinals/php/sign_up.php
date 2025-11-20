@@ -217,7 +217,7 @@
 
   <?php
   $host = "localhost";
-  $db = "employee_db";
+  $db = "auth";
   $user = "root";
   $pass =  "";
   $charset = "utf8mb4";
