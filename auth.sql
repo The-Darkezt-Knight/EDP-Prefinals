@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2025 at 04:10 AM
+-- Generation Time: Nov 20, 2025 at 06:33 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,30 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `auth`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `log_tbl`
---
-
-CREATE TABLE `log_tbl` (
-  `User_ID` int(11) DEFAULT NULL,
-  `User_Name` varchar(50) DEFAULT NULL,
-  `User_password` varchar(20) DEFAULT NULL,
-  `fullName` varchar(256) NOT NULL,
-  `confirmPass` varchar(256) NOT NULL,
-  `gender` varchar(5) NOT NULL,
-  `city` varchar(256) NOT NULL,
-  `created_at` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `log_tbl`
---
-
-INSERT INTO `log_tbl` (`User_ID`, `User_Name`, `User_password`, `fullName`, `confirmPass`, `gender`, `city`, `created_at`) VALUES
-(123, 'asd', '123', '', '', '', '', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -65,6 +41,15 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `full_name`, `email`, `username`, `password`, `created_at`, `updated_at`, `confirm_pass`, `gender`, `city`) VALUES
+(11, 'Kevin Zabal', 'zabal@gmail.com', 'zabal123', '$2y$10$sdgZgtwsdopQSqvP4Vgi4.x4pxNO/1kzzmJc9kcBxRnG/QX3GloKy', '2025-11-20 03:25:42', '2025-11-20 03:25:42', NULL, NULL, NULL),
+(12, 'cinder canet', 'cinder@gmail.com', 'cj123', '$2y$10$/BNHdHRJQ6f3f1hJ8L4lge7PRa0w793gtWm7T/ykfL8JYxrpR01M6', '2025-11-20 03:27:20', '2025-11-20 03:27:20', NULL, NULL, NULL),
+(13, 'raprap pido', 'rap4@gmail.com', 'raprap5', '$2y$10$W1tXxB24ttjjuTCKEerGuuQhEeEgygrAg0Szb6A5ClbPmkc2H4ZGS', '2025-11-20 05:09:30', '2025-11-20 05:09:30', NULL, NULL, NULL);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -84,7 +69,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
