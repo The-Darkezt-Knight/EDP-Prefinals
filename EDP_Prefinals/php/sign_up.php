@@ -214,57 +214,37 @@
 </head>
 
 <body>
-
   <?php
+<<<<<<< HEAD
   $host = "localhost";
   $db = "auth";
   $user = "root";
   $pass =  "";
   $charset = "utf8mb4";
+=======
+    require_once "db_functions.php";
+>>>>>>> 88474671e7770220e99f6a34e7d0511b600808ef
 
-  $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+    $pdo = connect();
 
-  $options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false
-  ];
+    $fullname = $_POST["fullname"] ?? "";
+    $username = $_POST["username"] ?? "";
+    $password = $_POST["password"] ?? "";
+    $email = $_POST["email"] ?? "";
 
-  try
-      {
-        $pdo = new PDO($dsn, $user, $pass, $options);
-      }catch(PDOException $e)
-      {
-        echo "Connection failed: " . $e->getMessage();
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+      if (!check_email($pdo, $email)) {
+        try {
+          $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+          insert_input($pdo, $fullname, $username, $hashed_password, $email);
+          echo "<script>toastr.success('Account successfully created!', 'Success');</script>";
+        } catch (PDOException $e) {
+          echo "<script>toastr.error('Failed to create account: " . $e->getMessage() . "', 'Error');</script>";
+        }
+      } else {
+        echo "<script>toastr.error('Email is already in use.', 'Error');</script>";
       }
-
-      if($_SERVER["REQUEST_METHOD"] === "POST"){
-
-      $fullname = $_POST["fullname"] ?? "";
-      $email = $_POST["email"] ?? "";
-      $password = $_POST["password"] ?? "";
-      $username = $_POST["username"] ?? "";
-
-      $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-      $sql = "INSERT INTO account_table(fullname, email, password, username)
-              VALUES(:full_name, :email, :password, :username)";
-
-      $stmt = $pdo->prepare($sql);
-
-      try
-      {
-        $stmt->execute([
-          ":full_name" => $fullname,
-          ":email" => $email,
-          ":password" => $hashed_password,
-          ":username" => $username
-        ]);
-      }catch(PDOException $e)
-      {
-        echo "Error signing in" .$e->getMessage();
-      }
-  }
+    }
   ?>
 
   <div id="container">
