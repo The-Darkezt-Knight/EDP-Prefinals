@@ -221,7 +221,7 @@
       <form action="register_user.php" method="POST">
 
         <label for="fullname">Full Name</label>
-        <input type="text" class="fields" id="fullname" name="name" placeholder="Enter your full name" required>
+        <input type="text" class="fields" id="fullname" name="full_name" placeholder="Enter your full name" required>
 
         <label for="username">Username</label>
         <input type="text" class="fields" id="username" name="username" placeholder="Enter username" required>
@@ -257,7 +257,7 @@
       </form>
     </div>
   </div>
-  <script src="EDP_Prefinals/js/sign_up.js"></script>
+  <!--<script src="EDP_Prefinals/js/sign_up.js"></script>-->
   <script>
     //declaring the variables
     const form = document.querySelector("form");
@@ -337,8 +337,42 @@
         return;
       }
 
-      //if successful, submit the form
-      form.submit();
+      //check if passwords match
+      if (password.value !== confirm.value) {
+        toastr.error("Passwords do not match", "Validation Error");
+        return;
+      }
+
+      //check if email is valid
+      if (!email.value.includes("@")) {
+        toastr.error("Please enter a valid email address", "Validation Error");
+        return;
+      }
+
+      // Submit form via AJAX to handle errors properly
+      const formData = new FormData(form);
+      
+      fetch("register_user.php", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          toastr.success("Account created successfully!", "Success");
+          form.reset();
+          // Redirect after a short delay
+          setTimeout(() => {
+            window.location.href = "index.php";
+          }, 2000);
+        } else {
+          return response.json().then(data => {
+            throw new Error(data.errors ? data.errors[0] : "Registration failed");
+          });
+        }
+      })
+      .catch(error => {
+        toastr.error(error.message || "An error occurred during registration", "Error");
+      });
     });
   </script>
 </body>

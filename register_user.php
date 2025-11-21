@@ -5,10 +5,10 @@ require_once 'db_connect.php';
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
    
-    $name = trim($_POST['name']);
-    $email = trim($_POST['email']);
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
+    $name = trim($_POST['full_name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $username = trim($_POST['username'] ?? '');
+    $password = trim($_POST['password'] ?? '');
     
     // Validation
     $errors = [];
@@ -75,13 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     
-    // If there are errors, store them in session and redirect back
+    // If there are errors, return JSON response with errors
     if (!empty($errors)) {
-        $_SESSION['errors'] = $errors;
-        $_SESSION['old_name'] = $name;
-        $_SESSION['old_email'] = $email;
-        $_SESSION['old_username'] = $username;
-        header("Location: signup.php");
+        http_response_code(400);
+        echo json_encode(['success' => false, 'errors' => $errors]);
         exit();
     }
 }

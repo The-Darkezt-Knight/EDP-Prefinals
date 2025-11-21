@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -199,7 +202,7 @@
                 <img src="/resources/images/Qr-code.svg" alt="this is a qr">
             </div>
         </div>
-        <label id="sign-up-link" for="signup">Don't have an account? <a href="signup.php">Sign up</a></label>
+        <label id="sign-up-link" for="signup">Don''t have an account? <a href="signup.php">Sign up</a></label>
     </div>
      <?php
       // Display success message
@@ -210,7 +213,7 @@
       
       // Display errors
       if (isset($_SESSION['errors'])) {
-          echo '<div class="alert alert-danger"><ul class="mb-0">';
+          echo '<div class="alert alert-danger"><ul class="mb-0">' ;
           foreach ($_SESSION['errors'] as $error) {
               echo '<li>' . htmlspecialchars($error) . '</li>';
           }
