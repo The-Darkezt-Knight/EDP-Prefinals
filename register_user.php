@@ -4,7 +4,7 @@ require_once 'db_connect.php';
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get form data and sanitize
+   
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
     $username = trim($_POST['username']);
@@ -57,9 +57,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     
-    // If no errors, insert user into database
+
     if (empty($errors)) {
-        // Hash the password
+        // for password hashing
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
         
         // Insert user
