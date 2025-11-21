@@ -78,12 +78,36 @@
     box-sizing: border-box;
   }
 
+  form input[type="text"]:focus {
+    outline: 2px solid #66c0f4;
+    background-color: #0e141b;
+    box-sizing: border-box;
+  }
+  
   .email-wrapper
   {
     position: relative;
     margin-bottom: 25px;
     box-sizing: border-box;
     height: 45px;
+  }
+
+  #gender
+  {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    height: 2.6rem;
+    border-radius: 6px;
+    border: none;
+    padding: 0 15px 0 15px;
+    font-size: 1rem;
+    margin-bottom: 25px;
+    box-sizing: border-box;
+    outline: none;
+    background: rgba(6,10,14,0.6);
+    color: #fff;
   }
 
   .email-wrapper input {
@@ -97,6 +121,12 @@
     outline: none;
     background: rgba(6,10,14,0.6);
     color: #fff;
+    box-sizing: border-box;
+  }
+
+  .email-wrapper input:focus {
+    outline: 2px solid #66c0f4;
+    background-color: #0e141b;
     box-sizing: border-box;
   }
 
@@ -214,79 +244,90 @@
 </head>
 
 <body>
-  <?php
-  $host = "localhost";
-  $db = "auth";
-  $user = "root";
-  $pass =  "";
-  $charset = "utf8mb4";
+<?php
+  require_once "db_functions.php";
 
-    $pdo = connect();
+  $pdo = connect();
 
-    $fullname = $_POST["fullname"] ?? "";
-    $username = $_POST["username"] ?? "";
-    $password = $_POST["password"] ?? "";
-    $email = $_POST["email"] ?? "";
+  $fullname = $_POST["fullname"] ?? "";
+  $city     = $_POST["city"] ?? "";
+  $gender   = $_POST["gender"] ?? "";
+  $password = $_POST["password"] ?? "";
+  $email    = $_POST["email"] ?? "";
 
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-      if (!check_email($pdo, $email)) {
-        try {
-          $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-          insert_input($pdo, $fullname, $username, $hashed_password, $email);
-          echo "<script>toastr.success('Account successfully created!', 'Success');</script>";
-        } catch (PDOException $e) {
-          echo "<script>toastr.error('Failed to create account: " . $e->getMessage() . "', 'Error');</script>";
-        }
-      } else {
-        echo "<script>toastr.error('Email is already in use.', 'Error');</script>";
+  if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (!check_email($pdo, $email)) {
+      try {
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        insert_input($pdo, $fullname, $city, $gender, $hashed_password, $email);
+
+        echo "<script>toastr.success('Account successfully created!', 'Success');</script>";
+      } catch (PDOException $e) {
+        echo "<script>toastr.error('Failed to create account: " . $e->getMessage() . "', 'Error');</script>";
       }
+    } else {
+      echo "<script>toastr.error('Email is already in use.', 'Error');</script>";
     }
+  }
 ?>
 
-  <div id="container">
-    <div id="header"><p>Sign up now</p></div>
+<div id="container">
+  <div id="header"><p>Sign up now</p></div>
 
-    <div id="body">
-      <form method="POST" action="#">
+  <div id="body">
+    <form method="POST" action="#">
 
-        <label for="fullname">Full Name</label>
-        <input type="text" class="fields" id="fullname" name="fullname" placeholder="Enter your full name" required>
+      <label for="fullname">Full Name</label>
+      <input type="text" class="fields" id="fullname" name="fullname" placeholder="Enter your full name" required>
 
-        <label for="username">Username</label>
-        <input type="text" class="fields" id="username" name="username" placeholder="Enter username" required>
+      <!-- CITY FIELD (New) -->
+      <label for="city">City</label>
+      <input type="text" class="fields" id="city" name="city" placeholder="Enter your city" required>
 
-        <label for="email">Email</label>
-        <div class="email-wrapper">
-          <input type="email" class="fields" id="email" name="email" placeholder="Enter email address" required>
-          <p id="email-notification">Must contain e.g @gmail</p>
-        </div>
+      <!-- GENDER FIELD (New) -->
+      <label for="gender">Gender</label>
+      <select id="gender" name="gender" class="fields" required>
+        <option value="">Select gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Prefer not to say">Prefer not to say</option>
+      </select>
 
-        <label for="password">Password</label>
-        <div class="password-wrapper">
-          <input type="password" class="fields" id="password" name="password" placeholder="Enter password" required>
-          <i class="fa-solid fa-eye icon"></i>
-          <p class="pw-notification">Password do not match</p>
-        </div>
+      <label for="email">Email</label>
+      <div class="email-wrapper">
+        <input type="email" class="fields" id="email" name="email" placeholder="Enter email address" required>
+        <p id="email-notification">Must contain e.g @gmail</p>
+      </div>
 
-        <label for="confirm">Confirm Password</label>
-        <div class="password-wrapper">
-          <input type="password" class="fields" id="confirm" placeholder="Re-enter password" required>
-          <i class="fa-solid fa-eye icon"></i>
-          <p class="pw-notification">Password do not match</p>
-        </div>
+      <label for="password">Password</label>
+      <div class="password-wrapper">
+        <input type="password" class="fields" id="password" name="password" placeholder="Enter password" required>
+        <i class="fa-solid fa-eye icon"></i>
+        <p class="pw-notification">Password do not match</p>
+      </div>
 
-        <label class="checkbox-wrap">
-          <input type="checkbox" class="fields" id="terms" />
-          <span>I agree to the terms &amp; conditions</span>
-        </label>
+      <label for="confirm">Confirm Password</label>
+      <div class="password-wrapper">
+        <input type="password" class="fields" id="confirm" placeholder="Re-enter password" required>
+        <i class="fa-solid fa-eye icon"></i>
+        <p class="pw-notification">Password do not match</p>
+      </div>
 
-        <button type="submit" id="submit-btn" name="submit-btn">Create Account</button>
+      <label class="checkbox-wrap">
+        <input type="checkbox" class="fields" id="terms" />
+        <span>I agree to the terms &amp; conditions</span>
+      </label>
 
-        <p class="login-link">Already have an account? <a href="index.html">Log in</a></p>
+      <button type="submit" id="submit-btn" name="submit-btn">Create Account</button>
 
-      </form>
-    </div>
+      <p class="login-link">Already have an account? <a href="http://localhost/Projects/EDP_Prefinals/php/">Log in</a></p>
+
+    </form>
   </div>
-  <script src="http://localhost/Projects/EDP_Prefinals/js/sign_up.js"></script>
+</div>
+
+<script src="http://localhost/Projects/EDP_Prefinals/js/sign_up.js"></script>
+
 </body>
 </html>

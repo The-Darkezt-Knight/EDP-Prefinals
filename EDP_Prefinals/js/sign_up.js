@@ -64,25 +64,27 @@ email.addEventListener("input", function() {
         method: "POST",
         data: { email: emailValue },
         success: function(data) {  // rename 'response' -> 'data'
-    try {
-        if (data.error) {
-            email_notification.textContent = data.error;
-            email_notification.style.display = "block";
-            email_notification.style.color = "tomato";
-        } else if (data.exists) {
-            email_notification.textContent = "Email already exists.";
-            email_notification.style.display = "block";
-            email_notification.style.color = "tomato";
-        } else {
-            email_notification.style.display = "none";
-        }
-    } catch (e) {
-        console.error("Error handling AJAX response:", e, data);
-        email_notification.textContent = "Error checking email.";
-        email_notification.style.display = "block";
-        email_notification.style.color = "tomato";
-    }
-},
+          try {
+              if (data.error) {
+                  email_notification.textContent = data.error;
+                  email_notification.style.display = "block";
+                  email_notification.style.color = "tomato";
+              } else if (data.exists) {
+                  email_notification.textContent = "Email already exists.";
+                  email_notification.style.display = "block";
+                  email_notification.style.color = "tomato";
+              } else {
+                  email_notification.textContent = "Email is available";
+                  email_notification.style.display = "block";
+                  email_notification.style.color = "green";
+              }
+          } catch (e) {
+              console.error("Error handling AJAX response:", e, data);
+              email_notification.textContent = "Error checking email.";
+              email_notification.style.display = "block";
+              email_notification.style.color = "tomato";
+                }
+        },
         error: function(xhr, status, error) {
             console.error("AJAX Error:", status, error, xhr.responseText);
             email_notification.textContent = "Error checking email.";
