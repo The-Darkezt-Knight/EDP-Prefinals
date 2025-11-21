@@ -259,7 +259,7 @@
   </div>
   <script src="EDP_Prefinals/js/sign_up.js"></script>
   <script>
-    /*declaring the variables
+    //declaring the variables
     const form = document.querySelector("form");
     const pw_wrappers = document.querySelectorAll(".password-wrapper");
     const submit = document.getElementById("submit-btn");
@@ -339,7 +339,7 @@
 
       //if successful, submit the form
       form.submit();
-    });*/
+    });
   </script>
 </body>
 
